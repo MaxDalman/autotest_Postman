@@ -1,0 +1,609 @@
+{
+	"info": {
+		"_postman_id": "78cd830b-604b-4bdd-9fdd-e5eca029a282",
+		"name": "Nexign test API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "E2E test",
+			"item": [
+				{
+					"name": "Add a new pet to the store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Finds Pets by ID');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Подготовка окружения\r",
+									"\r",
+									"// Очистка переменных на случай, если они уже заняты в окружении\r",
+									"pm.environment.unset('PetID');\r",
+									"pm.environment.unset('PetName');\r",
+									"\r",
+									"// Входные данные питомца\r",
+									"var PetID = 56412;\r",
+									"var PetName = 'Edgar Gold Boy'\r",
+									"\r",
+									"// Сохранение входных данных в переменные окружения\r",
+									"pm.environment.set('PetID', PetID);\r",
+									"pm.environment.set('PetName', PetName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{PetID}},\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"{{PetName}}\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pet",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes a pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Delete User');\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/pet/{{PetID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pet",
+								"{{PetID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete purchase order by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Deletes a pet');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/store/order/{{OrderID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{OrderID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find purchase order by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Delete purchase order by ID');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/store/order/{{OrderID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{OrderID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find deleted purchase order by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/store/order/{{OrderID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{OrderID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place an order for a pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Find purchase order by ID');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Подготовка окружения\r",
+									"\r",
+									"\r",
+									"// Очистка переменных из окружения на случай, если они уже заняты\r",
+									"pm.environment.unset('OrderID');\r",
+									"\r",
+									"// Входные данные заказа\r",
+									"var orderID = 986;\r",
+									"\r",
+									"// Сохранение входных данных в переменные окружения\r",
+									"pm.environment.set('OrderID', orderID);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{OrderID}},\r\n  \"petId\": {{PetID}},\r\n  \"quantity\": 1,\r\n  \"shipDate\": \"2022-08-21T12:26:10.610Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/store/order",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updated User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Get User by username');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Подготовка окружения\r",
+									"\r",
+									"// Очистка переменных из окружения на случай, если они уже заняты\r",
+									"pm.environment.unset('UserNewPassword');\r",
+									"\r",
+									"// Тестовые данные пользователя для теста PUT\r",
+									"var userNewPassword = 'Ghjopavent345_@';\r",
+									"\r",
+									"// Сохранение тестовых данных в переменную окружения\r",
+									"pm.environment.set('UserNewPassword', userNewPassword);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{UserID}},\r\n  \"username\": \"{{UserName}}\",\r\n  \"firstName\": \"{{UserFirstName}}\",\r\n  \"lastName\": \"{{UserLastName}}\",\r\n  \"email\": \"{{UserEmail}}\",\r\n  \"password\": \"{{UserNewPassword}}\",\r\n  \"phone\": \"{{UserPhone}}\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user/{{UserName}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"{{UserName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Get deleted User by username');\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/{{UserName}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"{{UserName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Place an order for a pet');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/{{UserName}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"{{UserName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted User by username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Finds deleted Pets by ID');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/{{UserName}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								"{{UserName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Updated User');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Подготовка окружения\r",
+									"\r",
+									"// Очистка переменных из окружения на случай, если они уже заняты\r",
+									"pm.environment.unset('UserID');\r",
+									"pm.environment.unset('UserName');\r",
+									"pm.environment.unset('UserFirstName');\r",
+									"pm.environment.unset('UserLastName');\r",
+									"pm.environment.unset('UserEmail');\r",
+									"pm.environment.unset('UserPassword');\r",
+									"pm.environment.unset('UserPhone');\r",
+									"\r",
+									"// Входные данные пользователя\r",
+									"var userID = 574121736;\r",
+									"var userName = 'MaxDalman';\r",
+									"var userFirstName = 'Maksim';\r",
+									"var userLastName = 'Daubert';\r",
+									"var userEmail = 'maksimdaubert@gmail.com';\r",
+									"var userPassword = '123';\r",
+									"var userPhone = '+7(911)707-49-85';\r",
+									"\r",
+									"// Сохранение входных данных в переменные окружения\r",
+									"pm.environment.set('UserID', userID);\r",
+									"pm.environment.set('UserName', userName);\r",
+									"pm.environment.set('UserFirstName', userFirstName);\r",
+									"pm.environment.set('UserLastName', userLastName);\r",
+									"pm.environment.set('UserEmail', userEmail);\r",
+									"pm.environment.set('UserPassword', userPassword);\r",
+									"pm.environment.set('UserPhone', userPhone);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{UserID}},\r\n  \"username\": \"{{UserName}}\",\r\n  \"firstName\": \"{{UserFirstName}}\",\r\n  \"lastName\": \"{{UserLastName}}\",\r\n  \"email\": \"{{UserEmail}}\",\r\n  \"password\": \"{{UserPassword}}\",\r\n  \"phone\": \"{{UserPhone}}\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/user",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finds Pets by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Create User');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pet/{{PetID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pet",
+								"{{PetID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finds deleted Pets by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest('Find deleted purchase order by ID');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/pet/{{PetID}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"pet",
+								"{{PetID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**E2E тест, проверяющий корректность работы API на:**\n\n*   **Создание записи о питомце;**\n*   **Создание записи о пользователе;**\n*   **Создание заказа;**\n*   **Обновление данных пользователя;**\n*   **Удаление всех участников процесса после сделки для экономии места БД;**\n    \n\nПеред запуском автоматически происходит удаление используемых переменных в тесте на случай, если они уже заняты в данном окружении.\n\nВ случае необходимости изменить тестовые параметры, необходимо их отредактировать во вкладке ***Pre-request script*** в методах *POST* и *PUT*.\n\nПосле реквестов всегда происходит проверка на корректность кода ответа."
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://petstore.swagger.io/v2"
+		}
+	]
+}
