@@ -1,6 +1,7 @@
 # autotest_Postman
 <br>
 <strong><i>Nexign test API.postman_collection.json</i></strong> - файл, содержащий коллекцию реквестов на API. 
+<br>
 
 <p><strong><span>E2E тест, проверяющий корректность работы API на:</span></strong></p>
 <ul>
